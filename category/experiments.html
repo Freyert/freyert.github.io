@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>Fulton Byrne - Experiments</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Fulton Byrne </a></h1>
+                <nav><ul>
+                    <li class="active"><a href="/category/experiments.html">Experiments</a></li>
+                    <li><a href="/category/when-you-want.html">When You Want . . .</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="/bubbles-part-1.html">Bubbles Part 1</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2014-12-09T12:00:00-05:00">
+                Published: Tue 09 December 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/fulton-byrne.html">Fulton Byrne</a>
+        </address>
+<p>In <a href="/category/experiments.html">Experiments</a>. </p>
+
+</footer><!-- /.post-info --><p>I'm interested in creating real time, collaborative, virtual experiences. Bubbles is a project I'm
+using to teach myself the fundamentals of NodeJS, and communicating effectively over WebSockets with a
+client. Thankfully, this is a pretty easy way to dip into learning Node, because the abstraction a socket
+gives us plays right into our hands for learning Asynchronous programming.</p>
+<p>It's easy to think of a socket as just a pair of tin-cans connected by a string, or a telephone.
+So, you and your friend are in the back yard yammering away across this bit of string that connects you.
+If this were regular ol' AJAX, every time you finished a message you'd go up to your buddy, initiate your specialized,
+secret hang up, handshake and put the cans away. You'd also do the same for sending a message. Walk over to buddy, 
+initiate secret initialization handshake, and then you could send one message across the line. LAME!</p>
+<p>WebSockets lets you relive that childhood fantasy of being able to talk endlessley over a single wire. WebSockets is an entirely
+different protocal from HTTP, and thankfully there are some libraries out there that do all that legwork for us. Namely <a href="http://socket.io/">Socket.io</a>,
+which people have blabbered on endlessely about because it's so awesome and really, honestly, the simplest interface I've ever worked with.</p>
+<p>Note: This isn't really a tutorial, but a captain's log about me playing around with things.</p>
+<h2>Code Break Down</h2>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">express</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;express&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">express</span><span class="p">();</span>
+<span class="kd">var</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">).</span><span class="nx">Server</span><span class="p">(</span><span class="nx">app</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">io</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;socket.io&#39;</span><span class="p">)(</span><span class="nx">http</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">playerTable</span> <span class="o">=</span> <span class="p">{};</span> <span class="c1">//global player table</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;/bower_components&#39;</span><span class="p">,</span> <span class="nx">express</span><span class="p">.</span><span class="kr">static</span><span class="p">(</span><span class="nx">__dirname</span> <span class="o">+</span> <span class="s1">&#39;/bower_components&#39;</span><span class="p">));</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;/static&#39;</span><span class="p">,</span> <span class="nx">express</span><span class="p">.</span><span class="kr">static</span><span class="p">(</span><span class="nx">__dirname</span> <span class="o">+</span> <span class="s1">&#39;/static&#39;</span><span class="p">));</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nx">sendFile</span><span class="p">(</span><span class="nx">__dirname</span> <span class="o">+</span> <span class="s1">&#39;/index.html&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">io</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;connection&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">socket</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">socket</span><span class="p">.</span><span class="nx">id</span> <span class="o">+</span> <span class="s1">&#39; user connected&#39;</span><span class="p">);</span>
+    <span class="c1">//Initialize a Player&#39;s Field</span>
+    <span class="nx">socket</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;init&#39;</span><span class="p">);</span>
+    <span class="nx">io</span><span class="p">.</span><span class="nx">to</span><span class="p">(</span><span class="s1">&#39;init&#39;</span><span class="p">).</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;init field&#39;</span><span class="p">,</span> <span class="nx">playerTable</span><span class="p">);</span>
+    <span class="nx">socket</span><span class="p">.</span><span class="nx">leave</span><span class="p">(</span><span class="s1">&#39;init&#39;</span><span class="p">);</span>
+
+    <span class="nx">socket</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;player join&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">player</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">playerTable</span><span class="p">[</span><span class="nx">socket</span><span class="p">.</span><span class="nx">id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">x</span><span class="o">:</span> <span class="nx">player</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="o">:</span> <span class="nx">player</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span> <span class="nx">color</span><span class="o">:</span> <span class="nx">player</span><span class="p">.</span><span class="nx">color</span><span class="p">};</span>
+        <span class="nx">socket</span><span class="p">.</span><span class="nx">broadcast</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;player join&#39;</span><span class="p">,</span> <span class="p">{</span>
+            <span class="nx">id</span><span class="o">:</span> <span class="nx">socket</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span>
+            <span class="nx">x</span><span class="o">:</span> <span class="nx">player</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span>
+            <span class="nx">y</span><span class="o">:</span> <span class="nx">player</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span>
+            <span class="nx">color</span><span class="o">:</span> <span class="nx">player</span><span class="p">.</span><span class="nx">color</span>
+        <span class="p">});</span>
+    <span class="p">});</span>
+
+
+    <span class="nx">socket</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;disconnect&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;user disconnected&#39;</span><span class="p">);</span>
+        <span class="k">delete</span> <span class="nx">playerTable</span><span class="p">[</span><span class="nx">socket</span><span class="p">.</span><span class="nx">id</span><span class="p">];</span>
+        <span class="nx">socket</span><span class="p">.</span><span class="nx">broadcast</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;player left&#39;</span><span class="p">,</span> <span class="nx">socket</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="nx">socket</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;mouse move&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">point</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">player</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="nx">id</span><span class="o">:</span> <span class="nx">socket</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span>
+            <span class="nx">x</span><span class="o">:</span> <span class="nx">point</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span>
+            <span class="nx">y</span><span class="o">:</span> <span class="nx">point</span><span class="p">.</span><span class="nx">y</span>
+
+        <span class="p">};</span>
+        <span class="nx">socket</span><span class="p">.</span><span class="nx">broadcast</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;player move&#39;</span><span class="p">,</span> <span class="nx">player</span><span class="p">);</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+
+
+<span class="nx">http</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="mi">3000</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;listening on *:3000&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+
+
+<p>It's tiny, but that's because it's a tiny program. Now to walk on through this.
+Let's start with all those <em>require</em> statements.</p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">express</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;express&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">express</span><span class="p">();</span>
+<span class="kd">var</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">).</span><span class="nx">Server</span><span class="p">(</span><span class="nx">app</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">io</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;socket.io&#39;</span><span class="p">)(</span><span class="nx">http</span><span class="p">);</span>
+</pre></div>
+
+
+<p>I import <em>express</em> which is just a webframework like any other to help simplify routing and such.
+<code>var http = require('http').Server(app)</code> is a bit more interesting. <code>http</code> is a core Node module, and what is happening
+here is it creates a Server object, and provides the <em>express</em> app as the <strong>requestListener</strong>. It's worth reading Nodes'
+docs to get a better idea of what's going on, but essentially Node tells express about connection events, and then express tells Node
+what to do. Finally, socket.io attaches itself to our Server object.</p>
+<div class="highlight"><pre><span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;/bower_components&#39;</span><span class="p">,</span> <span class="nx">express</span><span class="p">.</span><span class="kr">static</span><span class="p">(</span><span class="nx">__dirname</span> <span class="o">+</span> <span class="s1">&#39;/bower_components&#39;</span><span class="p">));</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;/static&#39;</span><span class="p">,</span> <span class="nx">express</span><span class="p">.</span><span class="kr">static</span><span class="p">(</span><span class="nx">__dirname</span> <span class="o">+</span> <span class="s1">&#39;/static&#39;</span><span class="p">));</span>
+</pre></div>
+
+
+<p>So this little snippet caught me off guard, but it's actually pretty useful to know about <code>express.use()</code>. Once again, go read the docs for more info, but essentially the first argument is a path, and the second is a middleware function to be called. Middleware is basically just some function that you run requests or responses through before passing them on. They sit in the middle of a req-response cycle, hence middleware. <code>express.static</code> is built-in middleware for serving static files. It's got lots of cool options you can set if you read those docs.</p>
+<div class="highlight"><pre><span class="nx">app</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nx">sendFile</span><span class="p">(</span><span class="nx">__dirname</span> <span class="o">+</span> <span class="s1">&#39;/index.html&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+
+
+<p>Gah, these ExpressJs people are pretty smart. <code>app.get()</code> is a general getter. Any property you set on the <code>app</code> object may be retrieved with <code>get</code>, but it may also be used to set routes and middleware. Polymorphism at it's finest, which from what I've read, is much more difficult to get right in JavaScript than in Java. I would love to read how this lil' fellah actually works. I've glanced through the source, but I still need to do more digging. Ours just ships <code>index.html</code> out.</p>
+<h2>Now for all that Socket.io jazz I was talking about</h2>
+<p>I'm going to talk a bit more abstractly here because this article is already longwinded.</p>
+<div class="highlight"><pre><span class="nx">io</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;customEventName&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">socket</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">socket</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;helloEvent&#39;</span><span class="p">,</span> <span class="p">{</span><span class="nx">hello</span><span class="o">:</span> <span class="s2">&quot;Hello World!&quot;</span><span class="p">});</span>
+<span class="p">});</span>
+</pre></div>
+
+
+<p>Asynchronous programming is all event driven. So you'll be writing lots of statements like this. The great thing though is event driven programming allows us to use our resources wisely in I/O situations instead of continuously polling our server.</p>
+<p>So here, <code>io</code>, our WebSocket Server receives an event like <code>connection</code>, and will call our callback by passing a <code>socket</code> for us to play with. There are some things about this <code>socket</code> object that I would consider "novel", maybe even unorthodox.</p>
+<p>I'm not really certain that Socket.io's <code>socket</code> object is trying to emulate a TCP socket, which is from what I've come to understand is the basis of a WebSocket. One reason Socket.IO's model confuses me is the emit function, and broadcast property.</p>
+<p>If I want to send a message to every connected Socket I use socket.emit, but the weird thing is, is that Socket IO's sockets are uniquely identifiable. So this is basically saying, "socket, I order you to tell everyone this thing that I the server have come up with." Logically, io.emit would make more sense, because io is supposed to be our server. It gets a little weirder when we do <code>socket.broadcast.emit()</code>. This is basically saying, "socket, I order you to tell all the other sockets what's up, but don't tell yourself." Yeah, weird I know. But, this one is a little easier to understand in the larger context.</p>
+<p>The only thing that's really a huge pain in the butt, is sending a message to just one connection. I have to have that connection join a room, tell them my secret, and then tell them to leave the room. That's what all that obnoxious <code>socket.join</code>, <code>socket.leave</code> stuff is that goes on when a connection is first made. There must be an easier way, but according to Stack Overflow that's it.  I suppose I could make it...</p>
+<p>Anyways, that's pretty much everything that's going on with it at the moment. I'm pretty excited it works.</p>                </article>
+<p class="paginator">
+    Page 1 / 1
+</p>
+            </aside><!-- /#featured -->
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+
+                            <li><a href="https://www.linkedin.com/profile/view?id=63933080&trk=spm_pic">LinkedIn</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>
