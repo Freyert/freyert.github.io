@@ -1,0 +1,10 @@
+<div class="ui list">
+{% for social in site.socials %}
+<div class="item">
+  <i class="{{social.icon}}"></i>
+  <div class="content">
+    <a href="{{social.link}}">{{social.name}}</a>
+  </div>
+</div>
+{% endfor %}
+</div>

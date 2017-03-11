@@ -1,1 +1,13 @@
 theme: jekyll-theme-minimal
+title: Fulton Byrne
+css: "https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.css"
+socials:
+  - icon: github icon
+    link: "https://github.com/Freyert"
+    name: "Freyert"
+  - icon: linkedin icon
+    link: "https://www.linkedin.com/in/fultonbyrne"
+    name: "Fulton Byrne"
+  - icon: stack overflow icon
+    link: "http://stackoverflow.com/users/456809/breedly"
+    name: "breedly"

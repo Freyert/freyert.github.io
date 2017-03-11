@@ -1,0 +1,10 @@
+<div class="ui pointing fluid secondary vertical menu">
+{% for item in site.html_pages %}
+  {% if page.title == item.title %}
+    {% assign class = "item active" %}
+  {% else %}
+    {% assign class = "item" %}
+  {% endif %}
+  <a class="{{class}}" href="{{item.url}}">{{item.title}}</a>
+{% endfor %}
+</div>

@@ -1,0 +1,51 @@
+---
+title: Resume
+layout: default
+---
+<h1>Education</h1>
+{% for school in site.data.resume.education %}
+<div class="ui grid layout container">
+  <div class="row">
+    <h3 class="ui header eight wide column">
+      {{school.location}}
+      <div class="sub header">
+        {{school.degree}} <i>GPA:</i> {{school.gpa}}
+      </div>
+    </h3>
+    <h4 class="right aligned four wide column">
+      {{school.graduation}}
+    </h4>
+  </div>
+</div>
+{% endfor %}
+<h1>Experience</h1>
+{% for experience in site.data.resume.experience %}
+<div class="ui grid layout container">
+  <div class="row">
+    <h3 class="ui header eight wide column">
+      {{experience.employer}}
+      <div class="sub header">
+        {{experience.location}}
+      </div>
+    </h3>
+    <h4 class="right aligned four wide column">
+      {{experience.dates}}
+    </h4>
+  </div>
+  {% include bullet_list.html item=experience %}
+</div>
+{% endfor %}
+<h1>Projects</h1>
+{% for project in site.data.resume.projects %}
+<div class="ui grid layout container">
+  <div class="row">
+    <h3 class="ui header six wide column">
+      {{project.description}}
+    </h3>
+    <h4 class="right aligned six wide column">
+      {{project.dates}}
+    </h4>
+  </div>
+  {% include bullet_list.html item=project %}
+</div>
+{% endfor %}

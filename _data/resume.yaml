@@ -1,0 +1,31 @@
+education:
+  - location: University of North Carolina at Chapel Hill
+    degree: Bachelor of Arts, Computer Science
+    gpa: 3.12
+    graduation: December 2014
+experience:
+  - employer: IBM
+    location: Research Triangle Park, NC
+    dates: March 2015 - Present
+    bullets:
+      - Lead 2 person team constructing environment deployment and management automation.
+      - Directed a 3 person team deploying and managing 20+ environments.
+      - Organized 15 minute tooling talks to elevate team capabilities.
+      - Developed RESTful microservices with NodeJS and Docker.
+      - Connected 10+ teams worldwide across IBM to coordinate automation mechanics.
+projects:
+  - description: OASIS Clinic Database
+    dates: August - December 2014
+    bullets:
+      - Designed client facing metrics application for a health clinic serving 140 patients in order to increase quality of patient care and reduce administrative costs.
+      - Collaborated as part of a 4 person team with a focus on Front End development.
+      - Leveraged efficiency through Angular, Grunt, Yeoman, Bower, and Jasmine.
+      - Forecasted development with GitHub’s milestones and issues.
+      - Displayed data instantaneously using HighCharts Javascript graphing framework.
+  - description: P2P Van Dispatch
+    dates: August - December 2014
+    bullets:
+      - Lead a two person team to prototype a new dispatching service for P2P’s vans.
+      - Mentored teammate on a variety of new technologies such as Git, PHP, and JQuery.
+      - Enabled design discussion, and problem solving through peer programming.
+      - Integrated HTML 5 Geolocation API with Google Maps API for effective dispatching.
