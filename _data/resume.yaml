@@ -1,3 +1,9 @@
+skills:
+  languages: NodeJS, Python, Ruby, Go, Java, Bash
+  delivery: Ansible, Jenkins, Terraform, Docker
+  databases: Postgres, Mongo
+  documentation: yardoc, jsdoc
+
 education:
   - location: University of North Carolina at Chapel Hill
     degree: Bachelor of Arts, Computer Science
@@ -8,13 +14,26 @@ experience:
     location: Research Triangle Park, NC
     dates: March 2015 - Present
     bullets:
-      - Lead 2 person team constructing environment deployment and management automation.
-      - Directed a 3 person team deploying and managing 20+ environments.
-      - Organized 15 minute tooling talks to elevate team capabilities.
-      - Developed RESTful microservices with NodeJS and Docker.
+      - Facilitated a 2 person team constructing environment deployment and management automation.
+      - Technical mentor for a 4 person intern team to explore adding predictive API analytics.
+      - Generated metric focused monitoring and alerting system bringing visibility into our service's health.
+      - Optimized MongoDB utilization via data re-modeling and TTL Indexes.
       - Connected 10+ teams worldwide across IBM to coordinate automation mechanics.
+      - Mentored team mates in Unit Testing, and Automation to foster better Continuous Integration.
+      - Coordinated product upgrades and deployments with customers.
+      - Solidified relationships with NCCU faculty and students to improve local presence.
+course_work:
+  - description: 'COMP 521: Files and Databases'
+    location: UNC Chapel Hill
+    dates: January - May 2014
+    bullets:
+      - Educated on the relational model, relational algebra, and normal forms.
+      - Formulated SQL queries to search a subset of IMDb for relationships between actors and movies.
+      - Enhanced querying performance with B-Tree and Hash indexing.
+      - Designed database tables in 1NF, 2NF, 3NF, and BCNF.
 projects:
   - description: OASIS Clinic Database
+    location: University of North Carolina at Chapel Hill
     dates: August - December 2014
     bullets:
       - Designed client facing metrics application for a health clinic serving 140 patients in order to increase quality of patient care and reduce administrative costs.
@@ -23,6 +42,7 @@ projects:
       - Forecasted development with GitHub’s milestones and issues.
       - Displayed data instantaneously using HighCharts Javascript graphing framework.
   - description: P2P Van Dispatch
+    location: University of North Carolina at Chapel Hill
     dates: August - December 2014
     bullets:
       - Lead a two person team to prototype a new dispatching service for P2P’s vans.

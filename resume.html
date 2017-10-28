@@ -18,6 +18,7 @@ layout: default
   </div>
 </div>
 {% endfor %}
+
 <h1>Experience</h1>
 {% for experience in site.data.resume.experience %}
 <div class="ui grid layout container">
@@ -35,6 +36,20 @@ layout: default
   {% include bullet_list.html item=experience %}
 </div>
 {% endfor %}
+<h1>Course Work</h1>
+{% for course in site.data.resume.course_work %}
+<div class="ui grid layout container">
+  <div class="row">
+    <h3 class="ui header eight wide column">
+        {{course.location}}
+    </h3>
+    <h4 class="right aligned four wide column">
+      {{course.dates}}
+    </h4>
+  </div>
+  {% include bullet_list.html item=course %}
+</div>
+{% endfor %}
 <h1>Projects</h1>
 {% for project in site.data.resume.projects %}
 <div class="ui grid layout container">
@@ -49,3 +64,15 @@ layout: default
   {% include bullet_list.html item=project %}
 </div>
 {% endfor %}
+<h1>Skills</h1>
+<div class="ui grid layout container">
+  <div class="row ten wide">
+<table class="ui definition table selectable">
+{% for skill in site.data.resume.skills %}
+<tr>
+<td class="one wide">{{skill[0]}}</td><td class="four wide">{{skill[1]}}</td>
+</tr>
+{% endfor %}
+</table>
+</div>
+</div>
