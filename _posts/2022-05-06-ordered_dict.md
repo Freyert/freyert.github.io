@@ -90,3 +90,6 @@ As much is described in the comment:
 # Individual links are kept alive by the hard reference in self.__map.
 # Those hard references disappear when a key is deleted from an OrderedDict.
 ```
+
+I'm going to take a break before covering the rest of the interesting operations because this has already been
+quite interesting, and it is _too_ late in the evening to be twiddling linked list pointers.
