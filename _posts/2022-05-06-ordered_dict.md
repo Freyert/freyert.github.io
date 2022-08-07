@@ -1,3 +1,8 @@
+---
+layout: default
+author: Fulton Byrne
+title: "Python Ordered Dict"
+---
 There's a very popular coding challenge where you are asked to implement a Least Recently Used Cache that has both `O(1)` get and `O(1)` insert.
 `O(1)` get and put imply either a `hashmap` and we can exclude an `array` since elements must be associated by a key that may or may not lie within our cache's capacity.
 "least recently used" indicates a secondary structure for prioritizing elements since `hashmap`'s do not inherently have ordering.
