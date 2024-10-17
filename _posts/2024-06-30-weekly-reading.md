@@ -23,7 +23,7 @@ Excited to assess code review process at work. See if there is anything to chang
 
 ## Farnam Street
 
-###[Chesterton's Fence: A Lesson in Thinking](https://fs.blog/chestertons-fence/)
+### [Chesterton's Fence: A Lesson in Thinking](https://fs.blog/chestertons-fence/)
 
 This hit home for me. I often want to "remove" or change
 systems at work.
