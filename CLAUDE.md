@@ -21,6 +21,8 @@ bundle install
 - **Build for production**: `bundle exec jekyll build` (outputs to `_site/`)
 - **Development with live reload**: `bundle exec jekyll serve --livereload`
 - When running the Jekyll server, always run it in the background with `&` to free up the terminal
+- When working on the site, run the Jekyll server in the background with the --watch flag so that the content is rebuilt when changes are made
+- Always run the Jekyll server using `bundle exec jekyll serve --detach --watch &`
 
 ### Dependencies
 - Uses `github-pages` gem for GitHub Pages compatibility
