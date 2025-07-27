@@ -25,11 +25,24 @@
     .sidebar {
       flex: 0 0 280px;
       min-width: 280px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      padding: 2rem;
+      overflow-y: auto;
     }
     
     .main-content {
       flex: 1;
       min-width: 0; /* Prevents flex item from overflowing */
+      margin-left: 280px;
+    }
+    
+    .sidebar header {
+      position: static;
+      width: auto;
+      float: none;
     }
     
     /* Navigation styling */
@@ -117,6 +130,10 @@
       padding: 1.5rem;
       background: #fff;
       transition: box-shadow 0.2s ease, transform 0.2s ease;
+      height: auto !important;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
     }
     
     .post-card:hover {
@@ -139,6 +156,13 @@
       color: #267CB9;
     }
     
+    .post-card header.post-header {
+      position: static;
+      width: auto;
+      float: none;
+      margin-bottom: 1rem;
+    }
+    
     .post-meta {
       display: flex;
       gap: 1rem;
@@ -151,11 +175,16 @@
       color: #555;
       line-height: 1.6;
       margin-bottom: 1rem;
+      flex-grow: 1;
     }
     
-    .post-footer {
+    .post-card footer.post-footer {
+      position: static;
+      width: auto;
+      float: none;
       border-top: 1px solid #f0f0f0;
       padding-top: 1rem;
+      margin-top: auto;
     }
     
     .read-more {
@@ -172,12 +201,7 @@
       color: #069;
     }
     
-    /* Responsive design for larger screens */
-    @media (min-width: 900px) {
-      .post-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
+    /* Single column layout for clear chronological order */
     
     /* Mobile-first responsive design */
     @media (max-width: 768px) {
@@ -188,8 +212,15 @@
       }
       
       .sidebar {
+        position: static;
         flex: none;
         min-width: auto;
+        height: auto;
+        padding: 1rem;
+      }
+      
+      .main-content {
+        margin-left: 0;
       }
       
       .post-card {
