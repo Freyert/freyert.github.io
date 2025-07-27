@@ -1,10 +1,18 @@
-<div class="ui pointing fluid secondary vertical menu">
-{% for item in site.html_pages %}
-  {% if page.title == item.title %}
-    {% assign class = "item active" %}
-  {% else %}
-    {% assign class = "item" %}
-  {% endif %}
-  <a class="{{class}}" href="{{item.url}}">{{item.title}}</a>
-{% endfor %}
-</div>
+<nav class="site-nav">
+  <ul class="nav-list">
+    {% for item in site.html_pages %}
+      {% unless item.nav_exclude %}
+        {% if page.title == item.title %}
+          {% assign class = "nav-item active" %}
+        {% else %}
+          {% assign class = "nav-item" %}
+        {% endif %}
+        <li class="{{class}}">
+          <a href="{{item.url}}" {% if page.title == item.title %}aria-current="page"{% endif %}>
+            {{item.title}}
+          </a>
+        </li>
+      {% endunless %}
+    {% endfor %}
+  </ul>
+</nav>

@@ -1,3 +1,9 @@
+---
+layout: default
+title: CLAUDE.md
+nav_exclude: true
+---
+
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
@@ -14,6 +20,7 @@ bundle install
 - **Local development server**: `bundle exec jekyll serve` (serves at http://localhost:4000)
 - **Build for production**: `bundle exec jekyll build` (outputs to `_site/`)
 - **Development with live reload**: `bundle exec jekyll serve --livereload`
+- When running the Jekyll server, always run it in the background with `&` to free up the terminal
 
 ### Dependencies
 - Uses `github-pages` gem for GitHub Pages compatibility

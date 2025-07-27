@@ -1,6 +1,8 @@
 theme: jekyll-theme-minimal
 title: Fulton Byrne
 css: "https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.css"
+exclude:
+  - CLAUDE.md
 socials:
   - icon: github icon
     link: "https://github.com/Freyert"

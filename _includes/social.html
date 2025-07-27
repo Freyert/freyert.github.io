@@ -1,10 +1,13 @@
-<div class="ui list">
-{% for social in site.socials %}
-<div class="item">
-  <i class="{{social.icon}}"></i>
-  <div class="content">
-    <a href="{{social.link}}">{{social.name}}</a>
-  </div>
-</div>
-{% endfor %}
+<div class="social-links">
+  <h3>Connect</h3>
+  <ul class="social-list">
+    {% for social in site.socials %}
+    <li class="social-item">
+      <a href="{{social.link}}" target="_blank" rel="noopener noreferrer">
+        <span class="social-icon" aria-hidden="true">🔗</span>
+        {{social.name}}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
 </div>
