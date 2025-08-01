@@ -2,6 +2,8 @@
 layout: default
 author: Fulton Byrne
 title: Weekly Reading December 15, 2024
+description: "Weekly reading reflections on career frameworks and performance review systems from Refactoring.fm"
+keywords: "weekly reading, career frameworks, performance reviews, software engineering"
 ---
 
 ## Reflections on [Public goals, career frameworks, and books](https://refactoring.fm/p/public-goals-career-frameworks-and)

@@ -16,19 +16,19 @@ references to the head and tail of the list and moves nodes around the list as t
 removing it is a fairly simple job.
 
 
-![ordered_dict](/assets/2022-05-06-ordered_dict/ordered_dict.png)
+![LRU Cache data structure diagram showing hashmap pointing to doubly linked list nodes](/assets/2022-05-06-ordered_dict/ordered_dict.png)
 
 Whenever a `get` or `put` is performed the node affected needs to be moved to the `head` of the list.
 The affected node is accessed in `O(1)` time from the dictionary and then the affected node is moved
 to the `head` which we also maintain an `O(1)` reference to.
 
-![reorder](/assets/2022-05-06-ordered_dict/reorder.png)
+![Diagram showing node being moved to head of linked list when accessed](/assets/2022-05-06-ordered_dict/reorder.png)
 
 Finally, if the cache capacity will be exceeded by adding a new node, the tail of the LRU list must
 be popped and the new node inserted at the head. Everything is done in `O(1)` because we have saved
 references to all nodes, plus deletions and insertions are `O(1)` for doubly linked lists.
 
-![pop](/assets/2022-05-06-ordered_dict/pop.png)
+![Diagram showing tail node being removed and new node added at head when capacity exceeded](/assets/2022-05-06-ordered_dict/pop.png)
 
 Instead of going through the exercise of adjusting node pointers in doubly linked lists correctly, Python
 offers the option to use an `OrderedDict` which satisfies the constraints of the LRU problem. Let's 
@@ -87,7 +87,7 @@ documentation shows that pointing to an object with `weakrefs` allows the garbag
 no _strong_ references (references that aren't `weakrefs`). The reason to use `weakrefs` here is so that when a node is _removed_ from the linked
 list we only need to modify the pointers of its neighbors and _not_ the node being removed.
 
-![weakref](/assets/2022-05-06-ordered_dict/weakref.png)
+![Python weakref diagram showing reference counting and garbage collection behavior](/assets/2022-05-06-ordered_dict/weakref.png)
 
 As much is described in the comment:
 

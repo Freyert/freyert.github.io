@@ -2,6 +2,8 @@
 layout: default
 author: Fulton Byrne
 title: Rethinking Pull Request Reviews
+description: "Examining the effectiveness of multi-reviewer systems and the paradox of group responsibility in code reviews"
+keywords: "pull request reviews, code review, software engineering, team productivity, Don Norman"
 ---
 
 Currently I work as an engineering manager in an organization whose culture recommends _two_ reviews for every pull request.

@@ -2,6 +2,8 @@
 layout: default
 author: Fulton Byrne
 title: "Thinking about Cloud Outages"
+description: "Exploring cloud outage patterns and cost-effective resilience strategies beyond complex failover solutions"
+keywords: "cloud outages, reliability, resilience, downtime costs, systems engineering"
 ---
 
 I recently realized I subconciously hold a naïve belief that I wanted to correct: "the clouds never or rarely go out". In reality the clouds _do_ suffer major downtime. When the clouds go out, conversations online center on reliability and resilience. Sometimes to an _extreme_ degree. This made me curious to correct my own bias, and understand the problem of cloud outages more deeply to see if I could identify cost-effective strategies to outcompete complex and expensive strategies such as failover.

@@ -1,6 +1,15 @@
 theme: jekyll-theme-minimal
 title: Fulton Byrne
+description: "Software engineer's blog covering technology, engineering management, and professional development"
+author: "Fulton Byrne"
+url: "https://freyert.github.io"
 css: "https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.css"
+timezone: America/New_York
+
+# SEO settings
+plugins:
+  - jekyll-seo-tag
+
 exclude:
   - CLAUDE.md
 socials:

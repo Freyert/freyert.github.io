@@ -1,6 +1,7 @@
 ---
 title: 'Home'
 layout: default
+description: "Fulton Byrne's personal website - software engineer focused on innovation, transformation, and team leadership"
 ---
 
 # Welcome!
